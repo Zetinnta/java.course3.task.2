@@ -20,7 +20,7 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{/id}")
     public ResponseEntity<Faculty> findFaculty(@PathVariable long id) {
         Faculty newFaculty = facultyService.findFaculty(id);
         if (newFaculty == null) {
@@ -38,20 +38,17 @@ public class FacultyController {
     @PutMapping
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
         Faculty updateFaculty = facultyService.editFaculty(faculty);
-        if (updateFaculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         return ResponseEntity.ok(updateFaculty);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{/id}")
     public ResponseEntity<Void> deleteFaculty (@PathVariable long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam String color) {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findByColor(color));
         }

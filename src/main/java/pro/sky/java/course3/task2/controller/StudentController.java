@@ -19,7 +19,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{/id}")
     public ResponseEntity<Student> findStudent(@PathVariable long id) {
         Student newStudent = studentService.findStudent(id);
         if (newStudent == null) {
@@ -37,20 +37,17 @@ public class StudentController {
     @PutMapping
     public ResponseEntity<Student> editStudent(@RequestBody Student student) {
         Student updateStudent = studentService.editStudent(student);
-        if (updateStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         return ResponseEntity.ok(updateStudent);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{/id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents (@RequestParam(required = false) int age) {
+    public ResponseEntity<Collection<Student>> findStudents (@RequestParam Integer age) {
         if (age > 0) {
             return ResponseEntity.ok(studentService.findByAge(age));
         }
