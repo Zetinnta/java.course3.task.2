@@ -21,8 +21,8 @@ public class FacultyController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Faculty> getFaculty(@PathVariable long id) {
-        Faculty newFaculty = facultyService.getFaculty(id);
+    public ResponseEntity<Faculty> findFaculty(@PathVariable long id) {
+        Faculty newFaculty = facultyService.findFaculty(id);
         if (newFaculty == null) {
             return ResponseEntity.notFound().build();
         }
@@ -37,7 +37,7 @@ public class FacultyController {
 
     @PutMapping
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
-        Faculty updateFaculty = facultyService.editFaculty(faculty.getId(), faculty);
+        Faculty updateFaculty = facultyService.editFaculty(faculty);
         if (updateFaculty == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
