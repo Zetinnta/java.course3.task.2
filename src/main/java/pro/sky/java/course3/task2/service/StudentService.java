@@ -26,7 +26,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public Student findStudent(long id) {
+    public Student findStudent(Integer id) {
         return studentRepository.findById(id).orElse(null);
     }
 
@@ -34,11 +34,11 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
-    public void deleteStudent(long id) {
+    public void deleteStudent(Integer id) {
         studentRepository.deleteById(id);
     }
 
-    public Collection<Student> findByAge (int age) {
+    public Collection<Student> findByAge (Integer age) {
 //        return studentRepository.findAll().stream().
 //                filter(s -> s.getAge() == age).collect(Collectors.toList());
         return studentRepository.findByAge(age);
