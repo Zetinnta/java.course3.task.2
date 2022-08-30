@@ -1,8 +1,6 @@
 package pro.sky.java.course3.task2.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -13,6 +11,10 @@ public class Student {
     private Integer id;
     private String name;
     private Integer age;
+
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
 //    public Student(long id, String name, int age) {
 //        this.id = id;
@@ -44,6 +46,10 @@ public class Student {
         this.age = age;
     }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,4 +71,5 @@ public class Student {
                 ", age=" + age +
                 '}';
     }
+
 }

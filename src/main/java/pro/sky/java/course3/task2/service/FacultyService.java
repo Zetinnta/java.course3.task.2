@@ -1,8 +1,8 @@
 package pro.sky.java.course3.task2.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course3.task2.model.Faculty;
+import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.repositories.FacultyRepository;
 
 import java.util.*;
@@ -32,9 +32,20 @@ public class FacultyService {
         facultyRepository.deleteById(id);
     }
 
-    public Collection<Faculty> findByColor(String color) {
-        return facultyRepository.findByColor(color);
-
+    public Collection<Faculty> findAll() {
+        return facultyRepository.findAll();
     }
+
+    public Collection<Faculty> findByColor(String color) {
+        return facultyRepository.findByColorIgnoreCase(color);
+    }
+
+    public Collection<Faculty> findByName(String name) {
+        return facultyRepository.findByNameIgnoreCase(name);
+    }
+
+    //    public Collection<Faculty> findByFaculty(Integer id) {
+//        return f
+//    }
 
 }

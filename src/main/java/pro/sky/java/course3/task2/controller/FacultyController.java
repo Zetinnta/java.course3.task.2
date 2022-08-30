@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course3.task2.model.Faculty;
+import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.service.FacultyService;
 import pro.sky.java.course3.task2.service.StudentService;
 
@@ -42,15 +43,26 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteFaculty (@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteFaculty(@PathVariable Integer id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam String color) {
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color,
+                                                             @RequestParam(required = false) String name) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByName(name));
+        }
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findByColor(color));
+        }
+        return ResponseEntity.ok(facultyService.findAll());
+    }
+
+    @GetMapping public ResponseEntity<Collection<Student>> findStudentByFaculty(@RequestParam Integer id) {
+        if (id != null && id > 0) {
+            return ResponseEntity.ok(facultyService.findFaculty(id).getStudents());
         }
         return ResponseEntity.ok(Collections.emptyList());
     }

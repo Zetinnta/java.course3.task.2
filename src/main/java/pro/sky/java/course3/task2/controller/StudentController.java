@@ -3,6 +3,7 @@ package pro.sky.java.course3.task2.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pro.sky.java.course3.task2.model.Faculty;
 import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.service.StudentService;
 
@@ -47,11 +48,24 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents (@RequestParam Integer age) {
-        if (age > 0) {
+    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) Integer age,
+                                                            @RequestParam(required = false) Integer min,
+                                                            @RequestParam(required = false) Integer max) {
+        if (min != null && max != null && min > 0 && max < Integer.MAX_VALUE) {
+            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+        }
+        if (age != null && age > 0) {
             return ResponseEntity.ok(studentService.findByAge(age));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(studentService.findAll());
     }
+
+    @GetMapping("/student_faculty") public ResponseEntity<Faculty> findFacultyByStudent(@RequestParam Integer id) {
+        if (id != null && id > 0) {
+            return ResponseEntity.ok(studentService.findStudent(id).getFaculty());
+        }
+        return ResponseEntity.ok().build();
+    }
+
 
 }

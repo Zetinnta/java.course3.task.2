@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.repositories.StudentRepository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,10 +39,15 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    public Collection<Student> findAll() {
+        return studentRepository.findAll();
+    }
+
     public Collection<Student> findByAge (Integer age) {
-//        return studentRepository.findAll().stream().
-//                filter(s -> s.getAge() == age).collect(Collectors.toList());
         return studentRepository.findByAge(age);
+    }
+    public Collection<Student> findByAgeBetween (Integer min, Integer max) {
+        return studentRepository.findByAgeBetween(min, max);
     }
 
 }
