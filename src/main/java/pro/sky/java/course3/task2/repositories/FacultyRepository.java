@@ -8,7 +8,7 @@ import pro.sky.java.course3.task2.model.Student;
 import java.util.List;
 
 @Repository
-public interface FacultyRepository extends JpaRepository<Faculty, Integer> {
+public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
     List<Faculty> findByColorIgnoreCase(String color);
 

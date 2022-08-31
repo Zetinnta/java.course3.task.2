@@ -20,7 +20,7 @@ public class FacultyService {
         return facultyRepository.save(faculty);
     }
 
-    public Faculty findFaculty(Integer id) {
+    public Faculty findFaculty(Long id) {
         return facultyRepository.findById(id).orElse(null);
     }
 
@@ -28,7 +28,7 @@ public class FacultyService {
         return facultyRepository.save(faculty);
     }
 
-    public void deleteFaculty(Integer id) {
+    public void deleteFaculty(Long id) {
         facultyRepository.deleteById(id);
     }
 
@@ -44,8 +44,5 @@ public class FacultyService {
         return facultyRepository.findByNameIgnoreCase(name);
     }
 
-    //    public Collection<Faculty> findByFaculty(Integer id) {
-//        return f
-//    }
 
 }

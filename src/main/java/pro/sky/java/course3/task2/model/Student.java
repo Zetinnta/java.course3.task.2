@@ -10,7 +10,7 @@ public class Student {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
     private String name;
     private Integer age;
 
@@ -29,7 +29,7 @@ public class Student {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
