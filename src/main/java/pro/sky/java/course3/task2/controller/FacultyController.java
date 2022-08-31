@@ -60,7 +60,7 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.findAll());
     }
 
-    @GetMapping public ResponseEntity<Collection<Student>> findStudentByFaculty(@RequestParam Integer id) {
+    @GetMapping("{id}/students") public ResponseEntity<Collection<Student>> findStudentByFaculty(@RequestParam Integer id) {
         if (id != null && id > 0) {
             return ResponseEntity.ok(facultyService.findFaculty(id).getStudents());
         }
