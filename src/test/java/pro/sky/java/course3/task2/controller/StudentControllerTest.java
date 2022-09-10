@@ -71,27 +71,26 @@ public class StudentControllerTest {
 
     @Test
     public void testStudents() throws Exception {
-        Student student = new Student();
-        student.setName("First Student");
-        student.setAge(18);
-        student.setId(1L);
+        Student firstStudent = new Student();
+        firstStudent.setName("First Student");
+        firstStudent.setAge(18);
+//        firstStudent.setId(1L);
 
         Student secondStudent = new Student();
         secondStudent.setName("Second Student");
         secondStudent.setAge(23);
-        secondStudent.setId(2L);
+//        secondStudent.setId(2L);
 
-
-        ResponseEntity<Student> responsePOST = restTemplate.postForEntity("http://localhost:" + port + "/student", student, Student.class);
-
+        ResponseEntity<Student> responsePOST = restTemplate.postForEntity("http://localhost:" + port + "/student", firstStudent, Student.class);
         assertThat(responsePOST.getStatusCode(), is(HttpStatus.OK));
         assertThat(responsePOST.getBody().getId(), notNullValue());
         assertThat(responsePOST.getBody().getName(), is("First Student"));
         assertThat(responsePOST.getBody().getAge(), is(18));
 
-        ResponseEntity<Student> responseGET = restTemplate.getForEntity("http://localhost:" + port + "/student/{id}", Student.class, student.getId());
-        assertThat(responseGET.getBody().getName(), is("First Student"));
-        assertThat(responseGET.getBody().getAge(), is(18));
+        ResponseEntity<Student> responseGET = restTemplate.getForEntity("http://localhost:" + port + "/student/" +
+                responsePOST.getBody().getId(), Student.class);
+        assertThat(responsePOST.getBody().getName(), is("First Student"));
+        assertThat(responsePOST.getBody().getAge(), is(18));
 
         HttpEntity<Student> entity = new HttpEntity<Student>(secondStudent);
 
@@ -101,9 +100,8 @@ public class StudentControllerTest {
         assertThat(responsePUT.getBody().getName(), is("Second Student"));
         assertThat(responsePUT.getBody().getAge(), is(23));
 
-        Long secondStudentId = secondStudent.getId();
-
-        ResponseEntity<Void> responseDELETE = restTemplate.exchange("/student/" + secondStudentId, HttpMethod.DELETE, null, Void.class);
+        ResponseEntity<Void> responseDELETE = restTemplate.exchange("/student/" + responsePUT.getBody().getId()
+                , HttpMethod.DELETE, null, Void.class);
         assertThat(responseDELETE.getStatusCode(), is(HttpStatus.OK));
 //        assertThat(responseDELETE.getBody().isNull());
 
@@ -127,6 +125,4 @@ public class StudentControllerTest {
 //                .isNull();
 //
     }
-
-
 }
