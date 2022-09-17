@@ -1,16 +1,10 @@
 package pro.sky.java.course3.task2.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.repositories.StudentRepository;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Service
 public class StudentService {
@@ -49,6 +43,20 @@ public class StudentService {
 
     public Collection<Student> findByAgeBetween (Integer min, Integer max) {
         return studentRepository.findByAgeBetween(min, max);
+    }
+
+    // 4.1
+
+    public Long getStudentsByAmount() {
+        return studentRepository.getStudentsByAmount();
+    }
+
+    public double getStudentsAverageAge() {
+        return studentRepository.getStudentsAverageAge();
+    }
+
+    public List<Student> getFiveLastStudents() {
+        return studentRepository.getFiveLastStudents();
     }
 
 }

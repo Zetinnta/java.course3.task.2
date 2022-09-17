@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pro.sky.java.course3.task2.model.Avatar;
+import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.service.AvatarService;
 import pro.sky.java.course3.task2.service.StudentService;
 
@@ -16,6 +17,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/avatar")
@@ -65,4 +67,10 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+    @GetMapping(value = "/avatars")
+    public Collection<Avatar> getAllAvatars(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize) {
+        return avatarService.findAll(pageNumber, pageSize);
+    }
+
 }
