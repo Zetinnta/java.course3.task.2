@@ -1,3 +1,12 @@
+CREATE TABLE car
+(
+    id REAL PRIMARY KEY,
+    car_brand TEXT NOT NULL,
+    car_model TEXT NOT NULL,
+    price NUMERIC CHECK (price > 0)
+);
+
+
 CREATE TABLE human
 (
     id REAL,
@@ -7,10 +16,3 @@ CREATE TABLE human
     car_id REAL REFERENCES car (id)
 );
 
-CREATE TABLE car
-(
-    id REAL,
-    car_brand TEXT NOT NULL,
-    car_model TEXT NOT NULL,
-    price INTEGER CHECK (price > 0),
-);
