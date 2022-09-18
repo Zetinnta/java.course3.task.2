@@ -4,4 +4,4 @@ ALTER TABLE student ADD PRIMARY KEY (name);
 
 ALTER TABLE faculty ADD CONSTRAINT color_name_unique UNIQUE (color, name);
 
-ALTER TABLE student.age INTEGER DEFAULT 20;
+ALTER TABLE student ALTER age SET DEFAULT 20;

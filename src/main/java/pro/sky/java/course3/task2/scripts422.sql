@@ -10,7 +10,7 @@ CREATE TABLE car
 CREATE TABLE human
 (
     id REAL,
-    name           TEXT PRIMARY KEY NOT NULL,
+    name           TEXT PRIMARY KEY,
     age            INTEGER CHECK (age > 0),
     driver_license BOOLEAN DEFAULT FALSE,
     car_id REAL REFERENCES car (id)
