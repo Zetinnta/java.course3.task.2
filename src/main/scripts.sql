@@ -9,3 +9,5 @@ select student.name from student where name like '%H%';
 select * from student where age < id;
 -- 5. Получить всех студентов упорядоченных по возрасту.
 select * from student ORDER BY age;
+
+
