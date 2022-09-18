@@ -9,6 +9,7 @@ import pro.sky.java.course3.task2.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @RestController
@@ -62,6 +63,12 @@ public class StudentController {
 
     @GetMapping("/{id}/faculty") public ResponseEntity<Faculty> findFacultyByStudent(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.findStudent(id).getFaculty());
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<List<Student>> getStudentsByName(@PathVariable("name") String name) {
+        List<Student> students = studentService.getStudentsByName(name);
+        return ResponseEntity.ok(students);
     }
 
 

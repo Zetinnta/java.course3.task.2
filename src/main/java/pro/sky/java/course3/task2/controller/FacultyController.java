@@ -10,6 +10,7 @@ import pro.sky.java.course3.task2.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @RestController
@@ -60,9 +61,17 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.findAll());
     }
 
-    @GetMapping("/students") public ResponseEntity<Collection<Student>> findStudentByFaculty(@RequestParam Long id) {
+    @GetMapping("/students")
+    public ResponseEntity<Collection<Student>> findStudentByFaculty(@RequestParam Long id) {
 
         return ResponseEntity.ok(facultyService.findFaculty(id).getStudents());
+    }
+
+    @GetMapping("/name-and-color/{name}/{color}")
+    public ResponseEntity<Collection<Faculty>> getStudentsByName(@PathVariable("name") String name,
+                                                                 @PathVariable("color") String color) {
+        Collection<Faculty> faculties = facultyService.getFacultiesByNameAndColor(name, color);
+        return ResponseEntity.ok(faculties);
     }
 
 }

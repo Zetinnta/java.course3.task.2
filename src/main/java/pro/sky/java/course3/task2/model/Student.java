@@ -19,11 +19,6 @@ public class Student {
     @JsonIgnore
     private Faculty faculty;
 
-//    public Student(long id, String name, int age) {
-//        this.id = id;
-//        this.name = name;
-//        this.age = age;
-//    }
 
     public Long getId() {
         return id;
@@ -53,27 +48,17 @@ public class Student {
         return faculty;
     }
 
-    //    @Override
-//    public String toString() {
-//        return "{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", age=" + age +
-//                '}';
-//    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(age, student.age) && Objects.equals(faculty, student.faculty);
+        return Objects.equals(id, student.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, faculty);
+        return Objects.hash(id);
     }
 
     @Override
