@@ -7,12 +7,15 @@ import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.repositories.StudentRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
 
 
-    Logger logger = LoggerFactory.getLogger(StudentService.class);
+    final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     private final StudentRepository studentRepository;
 
@@ -48,12 +51,12 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Collection<Student> findByAge (Integer age) {
+    public Collection<Student> findByAge(Integer age) {
         logger.info("Was invoked method for find student by age");
         return studentRepository.findByAge(age);
     }
 
-    public Collection<Student> findByAgeBetween (Integer min, Integer max) {
+    public Collection<Student> findByAgeBetween(Integer min, Integer max) {
         logger.info("Was invoked method for find students by age between min and max");
         return studentRepository.findByAgeBetween(min, max);
     }
@@ -80,4 +83,29 @@ public class StudentService {
         return studentRepository.getStudentByName(name);
     }
 
+    // 4.5 lesson
+
+    public List<String> getStudentsByNameSortedByAlphabet() {
+        logger.info("Was invoked method for get students by name sorted");
+        List<String> names = new ArrayList<>();
+        Collection<Student> students = findAll().stream()
+                .filter(student -> student.getName().startsWith("A"))
+                .collect(Collectors.toList());
+        students.forEach(s -> names.add(s.getName()));
+        return names.stream().sorted().collect(Collectors.toList());
+
+        // Как будто здесь много лишнего написано, но как укоротить код пока что не знаю :(
+
+    }
+
+    public OptionalDouble getStudentsAverageAgeUsingStream() {
+        logger.info("Was invoked method for get students average age using stream");
+        List<Integer> studentAge = new ArrayList<>();
+        Collection<Student> students = findAll();
+        students.forEach(s -> studentAge.add(s.getAge()));
+        return studentAge.stream()
+                .mapToInt(Integer::intValue)
+                .average();
+
+    }
 }

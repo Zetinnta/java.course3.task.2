@@ -10,6 +10,8 @@ import pro.sky.java.course3.task2.service.StudentService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Stream;
 
 
 @RestController
@@ -61,7 +63,8 @@ public class StudentController {
         return ResponseEntity.ok(studentService.findAll());
     }
 
-    @GetMapping("/{id}/faculty") public ResponseEntity<Faculty> findFacultyByStudent(@PathVariable Long id) {
+    @GetMapping("/{id}/faculty")
+    public ResponseEntity<Faculty> findFacultyByStudent(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.findStudent(id).getFaculty());
     }
 
@@ -69,6 +72,27 @@ public class StudentController {
     public ResponseEntity<List<Student>> getStudentsByName(@PathVariable("name") String name) {
         List<Student> students = studentService.getStudentsByName(name);
         return ResponseEntity.ok(students);
+    }
+
+    // 4.5 lesson
+
+    @GetMapping("/sorted_name")
+    public ResponseEntity<List<String>> getStudentsSortedByName() {
+        return ResponseEntity.ok(studentService.getStudentsByNameSortedByAlphabet());
+    }
+
+    @GetMapping("/average_age")
+    public ResponseEntity<OptionalDouble> getStudentsAverageAgeUsingStream() {
+        return ResponseEntity.ok(studentService.getStudentsAverageAgeUsingStream());
+    }
+
+    @GetMapping("/task")
+    public Integer task() {
+
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, Integer::sum);
+        return sum;
     }
 
 

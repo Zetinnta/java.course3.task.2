@@ -20,7 +20,7 @@ private final InfoInterface infoInterface;
 
     @GetMapping("/getPort")
     public ResponseEntity<Integer> getPort() {
-        return infoInterface.getServerPort();
+        return ResponseEntity.ok(infoInterface.getServerPort());
     }
 
 }

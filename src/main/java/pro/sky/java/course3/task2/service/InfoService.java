@@ -12,8 +12,8 @@ public class InfoService implements InfoInterface {
 
     private Integer serverPort;
 
-    public ResponseEntity<Integer> getServerPort() {
-        return ResponseEntity.ok(serverPort);
+    public Integer getServerPort() {
+        return serverPort;
     }
 
 

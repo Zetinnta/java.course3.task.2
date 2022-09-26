@@ -2,6 +2,8 @@ package pro.sky.java.course3.task2.service;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,8 @@ import java.util.Collection;
 @Transactional
 public class AvatarService {
 
+    final Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     @Value("${students.avatar.dir.path}")
     private String avatarsDir;
 
@@ -37,12 +41,14 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.info("Was invoked method for find avatar");
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
 
 
     }
 
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method for upload avatar");
         Student student = studentService.findStudent(studentId);
 
         Path filePath = Path.of(avatarsDir, studentId + "." + throwExtension(avatarFile.getOriginalFilename()));
@@ -73,6 +79,7 @@ public class AvatarService {
     }
 
     public Collection<Avatar> findAll(Integer pageNumber, Integer pageSize) {
+        logger.info("Was invoked method for find all avatars");
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll();
     }
