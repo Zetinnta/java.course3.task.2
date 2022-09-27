@@ -87,7 +87,7 @@ public class StudentService {
 
     public List<String> getStudentsWithFirstLetterSortedByAlphabet(char letter) {
         logger.info("Was invoked method for get students by name sorted");
-        String part = (letter + "").toUpperCase();
+        String part = String.valueOf(letter).toUpperCase();
         Collection<Student> students = findAll();
         return students.stream()
                 .map(Student::getName)
