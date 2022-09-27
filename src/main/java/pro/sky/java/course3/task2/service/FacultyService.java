@@ -8,13 +8,14 @@ import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.repositories.FacultyRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
 
     private final FacultyRepository facultyRepository;
 
-    final Logger logger = LoggerFactory.getLogger(FacultyService.class);
+    private final Logger logger = LoggerFactory.getLogger(FacultyService.class);
 
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
@@ -64,14 +65,11 @@ public class FacultyService {
 
     public String getLongestFacultyName() {
         logger.info("Was invoked method for get faculty with longest name");
-        List<String> facultyNames = new ArrayList<>();
         Collection<Faculty> faculties = findAll();
-        faculties.forEach(f -> facultyNames.add(f.getName()));
-        return facultyNames.stream()
+        return faculties.stream()
+                .map(Faculty::getName)
                 .max(Comparator.comparingInt(String::length))
-                .get();
-
-        // Не знаю, как быть в том случае, если есть сразу несколько факультетов с одинаковой длиной названий(
+                .orElseThrow();
     }
 
 }

@@ -77,22 +77,18 @@ public class StudentController {
     // 4.5 lesson
 
     @GetMapping("/sorted_name")
-    public ResponseEntity<List<String>> getStudentsSortedByName() {
-        return ResponseEntity.ok(studentService.getStudentsByNameSortedByAlphabet());
+    public List<String> getStudentsWithFirstLetterSortedByAlphabet(@RequestParam(name = "char") char letter) {
+        return studentService.getStudentsWithFirstLetterSortedByAlphabet(letter);
     }
 
     @GetMapping("/average_age")
-    public ResponseEntity<OptionalDouble> getStudentsAverageAgeUsingStream() {
-        return ResponseEntity.ok(studentService.getStudentsAverageAgeUsingStream());
+    public double getStudentsAverageAgeUsingStream() {
+        return studentService.getStudentsAverageAgeUsingStream();
     }
 
     @GetMapping("/task")
     public Integer task() {
-
-        int sum = Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
-                .reduce(0, Integer::sum);
-        return sum;
+        return studentService.task();
     }
 
 

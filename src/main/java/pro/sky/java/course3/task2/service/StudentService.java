@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class StudentService {
 
 
-    final Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     private final StudentRepository studentRepository;
 
@@ -85,27 +85,35 @@ public class StudentService {
 
     // 4.5 lesson
 
-    public List<String> getStudentsByNameSortedByAlphabet() {
+    public List<String> getStudentsWithFirstLetterSortedByAlphabet(char letter) {
         logger.info("Was invoked method for get students by name sorted");
-        List<String> names = new ArrayList<>();
-        Collection<Student> students = findAll().stream()
-                .filter(student -> student.getName().startsWith("A"))
+        String part = (letter + "").toUpperCase();
+        Collection<Student> students = findAll();
+        return students.stream()
+                .map(Student::getName)
+                .map(String::toUpperCase)
+                .filter(student -> student.startsWith(part))
+                .sorted()
                 .collect(Collectors.toList());
-        students.forEach(s -> names.add(s.getName()));
-        return names.stream().sorted().collect(Collectors.toList());
 
         // Как будто здесь много лишнего написано, но как укоротить код пока что не знаю :(
 
     }
 
-    public OptionalDouble getStudentsAverageAgeUsingStream() {
+    public double getStudentsAverageAgeUsingStream() {
         logger.info("Was invoked method for get students average age using stream");
-        List<Integer> studentAge = new ArrayList<>();
         Collection<Student> students = findAll();
-        students.forEach(s -> studentAge.add(s.getAge()));
-        return studentAge.stream()
-                .mapToInt(Integer::intValue)
-                .average();
+        return students.stream()
+                .mapToDouble(Student::getAge)
+                .average()
+                .orElseThrow();
+    }
 
+    public Integer task() {
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .parallel()
+                .reduce(0, Integer::sum);
+        return sum;
     }
 }

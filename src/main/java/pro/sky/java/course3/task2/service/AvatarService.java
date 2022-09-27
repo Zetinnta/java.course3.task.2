@@ -25,7 +25,7 @@ import java.util.Collection;
 @Transactional
 public class AvatarService {
 
-    final Logger logger = LoggerFactory.getLogger(AvatarService.class);
+    private final Logger logger = LoggerFactory.getLogger(AvatarService.class);
 
     @Value("${students.avatar.dir.path}")
     private String avatarsDir;
