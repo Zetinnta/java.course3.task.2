@@ -95,9 +95,6 @@ public class StudentService {
                 .filter(student -> student.startsWith(part))
                 .sorted()
                 .collect(Collectors.toList());
-
-        // Как будто здесь много лишнего написано, но как укоротить код пока что не знаю :(
-
     }
 
     public double getStudentsAverageAgeUsingStream() {
