@@ -28,4 +28,9 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     List<Student> getStudentByName(String name);
 
+    // 4.6 task
+
+    @Query(value = "SELECT * from student order by id", nativeQuery = true)
+    List<Student> getStudentsSortedById();
+
 }
