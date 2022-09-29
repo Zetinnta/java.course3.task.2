@@ -8,7 +8,6 @@ import pro.sky.java.course3.task2.repositories.StudentRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -141,37 +140,43 @@ public class StudentService {
         }).start();
     }
 
-    public final Object flag = new Object();
+    private final Object flag = new Object();
 
-    public /* synchronized */ void printStudentSynchronized(Student student) {
+//    public /* synchronized */ void printStudentSynchronized(Student student) {
 //        synchronized (flag) {
-            try {
-                System.out.println(student.toString());
-                Thread.sleep(1000);
-            } catch (InterruptedException exception) {
-                System.out.println("Method was interrupted");
-            }
+//            try {
+//                System.out.println(student.toString());
+//                Thread.sleep(1000);
+//            } catch (InterruptedException exception) {
+//                System.out.println("Method was interrupted");
+//            }
 //        }
+//    }
+
+    public synchronized void printStudentsPaired(int number) {
+        List<Student> students = studentRepository.getStudentsSortedById();
+//        try {
+//            System.out.println(students.subList(number, number + 2));
+//            List<Student> students_one = students.subList(0, 1);
+//            List<Student> students_two = students.subList(2, 3);
+//            List<Student> students_three = students.subList(3, 4);
+//            Thread.sleep(1000);
+//        } catch (InterruptedException exception) {
+//            System.out.println("Method was interrupted");
+//        }
+        printStudent(students.get(number++));
+        printStudent(students.get(number++));
     }
 
     public void getStudentsUsingThreadSynchronized() {
-        List<Student> students = studentRepository.getStudentsSortedById();
+        printStudentsPaired(0);
 
-        printStudentSynchronized(students.get(0));
-        printStudentSynchronized(students.get(1));
+        new Thread(() -> {
+            printStudentsPaired(2);
+        }).start();
 
-        synchronized (flag) {
-            new Thread(() -> {
-                printStudentSynchronized(students.get(2));
-                printStudentSynchronized(students.get(3));
-            }).start();
-        }
-
-        synchronized (flag) {
-            new Thread(() -> {
-                printStudentSynchronized(students.get(3));
-                printStudentSynchronized(students.get(4));
-            }).start();
-        }
+        new Thread(() -> {
+            printStudentsPaired(3);
+        }).start();
     }
 }
