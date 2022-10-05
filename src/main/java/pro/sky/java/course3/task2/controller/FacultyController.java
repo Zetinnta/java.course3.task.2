@@ -4,11 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.java.course3.task2.model.Faculty;
+import pro.sky.java.course3.task2.model.Student;
 import pro.sky.java.course3.task2.service.FacultyService;
 import pro.sky.java.course3.task2.service.StudentService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @RestController
@@ -20,9 +22,9 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Faculty> getFaculty(@PathVariable long id) {
-        Faculty newFaculty = facultyService.getFaculty(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Faculty> findFaculty(@PathVariable Long id) {
+        Faculty newFaculty = facultyService.findFaculty(id);
         if (newFaculty == null) {
             return ResponseEntity.notFound().build();
         }
@@ -37,25 +39,46 @@ public class FacultyController {
 
     @PutMapping
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
-        Faculty updateFaculty = facultyService.editFaculty(faculty.getId(), faculty);
-        if (updateFaculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        Faculty updateFaculty = facultyService.editFaculty(faculty);
         return ResponseEntity.ok(updateFaculty);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteFaculty (@PathVariable long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
+    public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color,
+                                                             @RequestParam(required = false) String name) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByName(name));
+        }
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyService.findByColor(color));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(facultyService.findAll());
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<Collection<Student>> findStudentByFaculty(@RequestParam Long id) {
+
+        return ResponseEntity.ok(facultyService.findFaculty(id).getStudents());
+    }
+
+    @GetMapping("/name-and-color/{name}/{color}")
+    public ResponseEntity<Collection<Faculty>> getStudentsByName(@PathVariable("name") String name,
+                                                                 @PathVariable("color") String color) {
+        Collection<Faculty> faculties = facultyService.getFacultiesByNameAndColor(name, color);
+        return ResponseEntity.ok(faculties);
+    }
+
+    // 4.5 lesson
+
+    @GetMapping("/longest_name")
+    public ResponseEntity<String> getLongestFacultyName() {
+        return ResponseEntity.ok(facultyService.getLongestFacultyName());
     }
 
 }
